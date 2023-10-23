@@ -1,0 +1,56 @@
+﻿<Page x:Class="Betting.View.BetList"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:Betting.View"
+      xmlns:wpf="clr-namespace:SARGUI.CustomGUI;assembly=SARGUI"
+      xmlns:controller="clr-namespace:Betting.Controller"
+      mc:Ignorable="d" 
+      d:DesignHeight="450" d:DesignWidth="800"
+      Title="BetList">
+
+    <Page.DataContext>
+        <controller:BetController/>
+    </Page.DataContext>
+
+    <wpf:FormView ShowProgressBar="False" ShowRecordStatusButton="False" AllowNewRecord="False" HeaderHeight="85">
+        <wpf:FormHeader>
+            <Grid>
+                <Border Style="{DynamicResource SearchBorderStyle}">
+                    <local:BetFilterPanel ColumnsDefinition2="110,40,90,101,40,120,25,120,40,60,40,70,40,70,40,93,40,70,50"/>
+                </Border>
+            </Grid>
+        </wpf:FormHeader>
+
+        <wpf:FormContent>
+            <wpf:Lista HeaderStyle="{StaticResource HeaderLabelStyle}" HeaderColumnsWidth="{Binding ColumnsWidth}" HeaderHeight="30" ItemsSource="{Binding RecordSource}" SelectedItem="{Binding SelectedRecord}" RecordsOrganizer="{Binding BetFilter}">
+                <wpf:Lista.Header>
+                    <Label Content="Promo" Grid.Column="1"/>
+                    <Label Content="BookMaker" Grid.Column="2"/>
+                    <Label Content="Account Holder" Grid.Column="3"/>
+                    <Label Content="Date" Grid.Column="4"/>
+                    <Label Content="Time" Grid.Column="5"/>
+                    <Label Content="Venue" Grid.Column="6"/>
+                    <Label Content="Bet Code" Grid.Column="7"/>
+                    <Label Content="Race" Grid.Column="8"/>
+                    <Label Content="Runner" Grid.Column="9"/>
+                    <Label Content="Bet Payment" Grid.Column="10"/>
+                    <Label Content="Market" Grid.Column="11"/>
+                    <Label Content="Odd" Grid.Column="12"/>
+                    <Label Content="Wager" Grid.Column="13"/>
+                    <Label Content="Profit" Grid.Column="14"/>
+                    <Label Content="COMMANDS" Grid.Column="15" Grid.ColumnSpan="2"/>
+                </wpf:Lista.Header>
+
+                <wpf:Lista.ItemTemplate>
+                    <DataTemplate>
+                        <wpf:ViewCell>
+                            <local:BetView ColumnsDefinition2="{Binding RelativeSource={RelativeSource AncestorType=wpf:Lista}, Path=DataContext.ColumnsWidth}"/>
+                        </wpf:ViewCell>
+                    </DataTemplate>
+                </wpf:Lista.ItemTemplate>
+            </wpf:Lista>            
+        </wpf:FormContent>
+    </wpf:FormView>
+</Page>

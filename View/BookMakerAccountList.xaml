@@ -1,0 +1,126 @@
+﻿<Page x:Class="Betting.View.BookMakerAccountList"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:Betting.View"
+      xmlns:sys="clr-namespace:System;assembly=mscorlib"
+      xmlns:controller="clr-namespace:Betting.Controller"
+      xmlns:wpf="clr-namespace:SARGUI.CustomGUI;assembly=SARGUI"
+      xmlns:converters="clr-namespace:SARGUI.Converters;assembly=SARGUI"
+      mc:Ignorable="d" 
+      d:DesignHeight="450" d:DesignWidth="800"
+      Title="BookMakerAccountList">
+
+    <Page.DataContext>
+        <controller:BookMakerAccountController/>
+    </Page.DataContext>
+
+    <Page.Resources>
+        <converters:LessThanZero x:Key="less"/>
+        <converters:MoreThanZero x:Key="more"/>
+        <Style TargetType="Label" BasedOn="{StaticResource HeaderLabelStyle}" x:Key="HeaderLabelStyle2">
+            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+        </Style>
+    </Page.Resources>
+    
+    <wpf:FormView ShowProgressBar="False" ShowRecordStatusButton="False" AllowNewRecord="False">
+        <wpf:FormHeader>
+            <Grid>
+                <Border Style="{DynamicResource SearchBorderStyle}">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="50"/>
+                        </Grid.ColumnDefinitions>
+                        <wpf:SearchBox PlaceHolder="Search..." Text="{Binding Search,UpdateSourceTrigger=PropertyChanged}"/>
+                        <wpf:NewRecordButton Grid.Column="1" Command="{Binding OpenNewCMD}"/>
+                    </Grid>
+                </Border>
+            </Grid>
+        </wpf:FormHeader>
+
+        <wpf:FormContent>
+            <wpf:Lista 
+                       RecordsOrganizer="{Binding BookMakerOrder}"
+                       FilterDataContext="{Binding Search}"
+                       HeaderStyle="{StaticResource HeaderLabelStyle2}" HeaderHeight="40" 
+                       HeaderColumnsWidth="50,200,50,50,20,50,60,60,100,100,100,100,50,50,50" SelectedItem="{Binding SelectedRecord}">
+                <wpf:Lista.Header>
+                    <Label Content="Logo" Grid.Column="1"/>
+                    <Label Content="Agency" Grid.Column="2"/>
+                    <Label Content="Status" Grid.Column="3"/>
+                    <Label Content="BETTING FLOW" Grid.Column="4" Grid.ColumnSpan="3"/>
+                    <Label Content="PROMO" Grid.Column="7"/>
+                    <Label Content="  NON&#10;PROMO" Grid.Column="8"/>
+                    <Label Content="PROMO BETS" Grid.Column="9"/>
+                    <Label Content="PROMO SPENDS" Grid.Column="10"/>
+                    <Label Content="         NON&#10;PROMO SPENDS" Grid.Column="11"/>
+                    <Label Content="DIFFERENTIAL" Grid.Column="12"/>
+                    <Label Content="COMMANDS" Grid.Column="13" Grid.ColumnSpan="3"/>
+                </wpf:Lista.Header>
+                <wpf:Lista.ItemTemplate>
+                    <DataTemplate>
+                        <wpf:ViewCell>
+                            <wpf:ViewCell.Resources>
+                                <Style TargetType="Label" x:Key="LabelStyle">
+                                    <Setter Property="HorizontalContentAlignment" Value="Center"/>
+                                    <Style.Triggers>
+                                        <Trigger Property="IsMouseOver" Value="True">
+                                            <Setter Property="Background" Value="Black"/>
+                                            <Setter Property="Foreground" Value="White"/>
+                                        </Trigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </wpf:ViewCell.Resources>
+                            <wpf:Grid2 ColumnsDefinition2="{Binding RelativeSource={RelativeSource AncestorType=wpf:Lista}, Path=HeaderColumnsWidth}">
+                                <wpf:Grid2.Resources>
+                                    <Style TargetType="Label" BasedOn="{StaticResource LabelStyle}">
+                                        
+                                    </Style>
+                                    <Style TargetType="Label" x:Key="prova" BasedOn="{StaticResource LabelStyle}">
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding Diff, Converter={StaticResource less}}" Value="True">
+                                                <Setter Property="Foreground" Value="Red"/>
+                                            </DataTrigger>
+
+                                            <DataTrigger Binding="{Binding Diff, Converter={StaticResource more}}" Value="True">
+                                                <Setter Property="Foreground" Value="Green"/>
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </wpf:Grid2.Resources>
+                                <wpf:ImageHolder Height="30" PlaceHolderFontSize="10" ImageStorageManager="{Binding ImageStorageManager}">
+                                    <wpf:ImageHolder.PlaceHolder>
+                                        <TextBlock>Logo</TextBlock>
+                                    </wpf:ImageHolder.PlaceHolder>
+                                </wpf:ImageHolder>
+
+                                <wpf:SearchBox Grid.Column="1" Text="{Binding BookMakerName}" PlaceHolder="New Bookmaker name here..."/>
+                                <wpf:MandatoryFlag  Style="{StaticResource warningLabel}" Grid.Column="1" Value="{Binding BookMakerName}" Margin="0,-10,-15,0" Panel.ZIndex="1" VerticalAlignment="Top" HorizontalAlignment="Right"/>
+                                <CheckBox Grid.Column="2" IsChecked="{Binding Status}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+
+                                <wpf:SearchBox Grid.Column="3" Text="{Binding GreenThreshold}"/>
+                                <Label Grid.Column="4" Content="/"/>
+                                <wpf:SearchBox Grid.Column="5" Text="{Binding BettingFlow}"/>
+
+                                <Label Grid.Column="6" Content="{Binding Promos}"/>
+                                <Label Grid.Column="7" Content="{Binding NoPromos}"/>
+                                <Label Grid.Column="8" Content="{Binding CurrentThreshold}" Background="{Binding BackgroundThreshold}" FontWeight="Bold" ContentStringFormat=" {0}%"/>
+                                <Label Grid.Column="9" Content="{Binding PromoSpend}" ContentStringFormat="C2"/>
+                                <Label Grid.Column="10" Content="{Binding NoPromoSpend}" ContentStringFormat="C2"/>
+                                <Label Grid.Column="11" Style="{StaticResource prova}" Content="{Binding Diff}" ContentStringFormat="C2" FontWeight="Bold"/>
+
+
+                                <wpf:SaveButton Grid.Column="12" Command="{Binding RelativeSource={RelativeSource AncestorType=Page}, Path=DataContext.SaveCMD}"/>
+                                <wpf:DeleteButton Grid.Column="13" Command="{Binding RelativeSource={RelativeSource AncestorType=Page}, Path=DataContext.DeleteCMD}"/>
+                                <wpf:ImageButton Grid.Column="14" ButtonImageSource="{StaticResource PromoIcon}" ToolTip="Promotions" Command="{Binding RelativeSource={RelativeSource AncestorType=Page}, Path=DataContext.OpenCMD}" SelfDataContext="True"/>
+                            </wpf:Grid2>
+                        </wpf:ViewCell>
+                    </DataTemplate>
+                </wpf:Lista.ItemTemplate>
+            </wpf:Lista>
+        </wpf:FormContent>
+    </wpf:FormView>
+</Page>

@@ -1,0 +1,103 @@
+﻿<Window x:Class="Betting.View.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Betting.View"
+        mc:Ignorable="d"
+        WindowStartupLocation="CenterScreen"
+        xmlns:wpf="clr-namespace:SARGUI.CustomGUI;assembly=SARGUI"
+        WindowState="Maximized"    
+        Title="MainWindow" 
+        Height="450" Width="800">
+
+        <Grid x:Name="MainGrid">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="40"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Menu x:Name="menu" Margin="20.1,0,0,0">
+            <MenuItem Height="40">
+                    <MenuItem.Header>
+                        <TextBlock VerticalAlignment="Center">Report</TextBlock>
+                    </MenuItem.Header>
+                    <MenuItem.Icon>
+                        <Image Source="{StaticResource ExcelIcon}" HorizontalAlignment="Center" Stretch="UniformToFill"/>
+                    </MenuItem.Icon>
+                </MenuItem>
+            </Menu>
+        <wpf:Curtain Height="{Binding ElementName=menu, Path=ActualHeight}" Row1Height="39" SoftwareInfo="{Binding RelativeSource={RelativeSource AncestorType=Window}, Path=Software}"/>
+        <TabControl Grid.Row="1">
+                <TabControl.Resources>
+                    <Style TargetType="TabItem">
+                        <Setter Property="Padding" Value="10"/>
+                        <Setter Property="Width" Value="120"/>
+                    </Style>
+
+                </TabControl.Resources>
+                <TabItem Header="Account Holders">
+                    <Frame>
+                        <Frame.Content>
+                            <local:AccountHolderList/>
+                        </Frame.Content>
+                    </Frame>
+                </TabItem>
+
+                <TabItem Header="Bookmakers">
+                    <Frame>
+                        <Frame.Content>
+                            <local:BookMakerAccountList/>
+                        </Frame.Content>
+                    </Frame>
+                </TabItem>
+
+                <TabItem Header="Bets">
+                    <Frame>
+                        <Frame.Content>
+                            <local:BetList/>
+                        </Frame.Content>
+                    </Frame>
+                </TabItem>
+
+                <TabItem Header="Venues">
+                    <Frame>
+                        <Frame.Content>
+                            <local:Venues/>
+                        </Frame.Content>
+                    </Frame>
+                </TabItem>
+
+                <TabItem Header="BetCodes">
+                    <Frame>
+                        <Frame.Content>
+                            <local:Betcodes/>
+                        </Frame.Content>
+                    </Frame>
+                </TabItem>
+
+                <TabItem Header="Runners">
+                    <Frame>
+                        <Frame.Content>
+                            <local:Runners/>
+                        </Frame.Content>
+                    </Frame>
+                </TabItem>
+
+                <TabItem Header="Bet Payments">
+                    <Frame>
+                        <Frame.Content>
+                            <local:BetPayments/>
+                        </Frame.Content>
+                    </Frame>
+                </TabItem>
+
+                <TabItem Header="Markets">
+                    <Frame>
+                        <Frame.Content>
+                            <local:Markets/>
+                        </Frame.Content>
+                    </Frame>
+                </TabItem>
+            </TabControl>
+        </Grid>
+</Window>

@@ -1,0 +1,99 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="Current" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <_LastSelectedProfileId>C:\Users\salva\source\repos\Betting\Properties\PublishProfiles\FolderProfile.pubxml</_LastSelectedProfileId>
+  </PropertyGroup>
+  <ItemGroup>
+    <ApplicationDefinition Update="App.xaml">
+      <SubType>Designer</SubType>
+    </ApplicationDefinition>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Update="View\AccountHolderForm.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="View\AccountHolderList.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="View\BetFilterPanel.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="View\BetList.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="View\BetView.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="View\BetWindow.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="View\BookMakerAccountList.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="View\EntryWindow.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="View\MainWindow.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="View\PromotionForm.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="View\PromotionList.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="View\Venues.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="View\AccountHolderForm.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="View\AccountHolderList.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="View\Markets.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="View\BetPayments.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="View\Runners.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="View\BetFilterPanel.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="View\BetList.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="View\BetView.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="View\BetWindow.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="View\BookMakerAccountList.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="View\EntryWindow.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="View\MainWindow.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="View\PromotionForm.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="View\PromotionList.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="View\Betcodes.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="View\Venues.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+  </ItemGroup>
+</Project>

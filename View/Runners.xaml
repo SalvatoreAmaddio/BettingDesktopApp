@@ -1,0 +1,60 @@
+﻿<Page x:Class="Betting.View.Runners"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:Betting.View"
+      xmlns:wpf="clr-namespace:SARGUI.CustomGUI;assembly=SARGUI"
+      xmlns:controller="clr-namespace:Betting.Controller"
+      mc:Ignorable="d" 
+      d:DesignHeight="450" d:DesignWidth="800"
+      Title="Venues">
+
+    <Page.DataContext>
+        <controller:RunnerController/>
+    </Page.DataContext>
+    
+    <wpf:FormView ShowProgressBar="False" ShowRecordStatusButton="False">
+        <wpf:FormHeader>
+            <Grid>
+                <Border Style="{DynamicResource SearchBorderStyle}">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="30"/>
+                        </Grid.RowDefinitions>
+                        <wpf:SearchBox PlaceHolder="Search..." Text="{Binding Search,UpdateSourceTrigger=PropertyChanged}"/>
+                    </Grid>
+                </Border>
+            </Grid>
+        </wpf:FormHeader>
+
+        <wpf:FormContent>
+            <wpf:Lista RecordsOrganizer="{Binding RecordsOrganizer}" FilterDataContext="{Binding Search}" SelectedItem="{Binding SelectedRecord}" HeaderColumnsWidth="150,50,50" HeaderStyle="{StaticResource HeaderLabelStyle}">
+                <wpf:Lista.Header>
+                    <Label Content="Runner" Grid.Column="1"/>
+                    <Label Content="COMMANDS" Grid.Column="2" Grid.ColumnSpan="2"/>
+                </wpf:Lista.Header>
+                <wpf:Lista.ItemTemplate>
+                    <DataTemplate>
+                        <wpf:ViewCell>
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="30"/>
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="150"/>
+                                    <ColumnDefinition Width="50"/>
+                                    <ColumnDefinition Width="50"/>
+                                </Grid.ColumnDefinitions>
+                                <wpf:SearchBox Text="{Binding Description}" PlaceHolder="Runner..."/>
+                                <wpf:MandatoryFlag Style="{StaticResource warningLabel}" Value="{Binding Description}" Margin="0,-10,-6,0" Panel.ZIndex="1" VerticalAlignment="Top" HorizontalAlignment="Right"/>
+                                <wpf:SaveButton Grid.Column="1" Command="{Binding RelativeSource={RelativeSource AncestorType=Page}, Path=DataContext.SaveCMD}"/>
+                                <wpf:DeleteButton Grid.Column="2" Command="{Binding RelativeSource={RelativeSource AncestorType=Page}, Path=DataContext.DeleteCMD}"/>
+                            </Grid>
+                        </wpf:ViewCell>
+                    </DataTemplate>
+                </wpf:Lista.ItemTemplate>
+            </wpf:Lista>
+        </wpf:FormContent>
+    </wpf:FormView>
+</Page>

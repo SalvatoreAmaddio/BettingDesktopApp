@@ -1,0 +1,110 @@
+﻿<Window x:Class="Betting.View.AccountHolderForm"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Betting.View"
+        xmlns:controller="clr-namespace:Betting.Controller"
+        xmlns:wpf="clr-namespace:SARGUI.CustomGUI;assembly=SARGUI"
+        mc:Ignorable="d"
+        WindowStartupLocation="CenterScreen"
+        SizeToContent="WidthAndHeight"
+        ResizeMode="NoResize"
+        Title="Account Holder Form" Height="450" Width="800">
+    
+        <Window.DataContext>
+        <controller:AccountHolderController/>
+        </Window.DataContext>
+
+    <wpf:FormView ShowProgressBar="False">
+        <wpf:FormContent DataContext="{Binding CurrentRecord}" Margin="10,0,10,0">
+            <wpf:Grid2 ColumnsDefinition2="350,*" RowDefinition2="450">
+                <wpf:Grid2 
+                    RowDefinition2="30,30,30,30,30,30,30,30,30,30,30,30,30,10,30"
+                    ColumnsDefinition2="100,200,30" x:Name="Bio" Margin="10">
+
+                    <Label Content="First Name"/>
+                    <wpf:SearchBox Text="{Binding FirstName}" Grid.Column="1"/>
+                    <wpf:MandatoryFlag Value="{Binding FirstName}" Grid.Row="0" Grid.Column="2"/>
+
+                    <Label Content="Middle Name" Grid.Row="1"/>
+                    <wpf:SearchBox Text="{Binding MiddleName}" Grid.Row="1" Grid.Column="1"/>
+
+                    <Label Content="Last Name" Grid.Row="2"/>
+                    <wpf:SearchBox Text="{Binding LastName}" Grid.Row="2" Grid.Column="1"/>
+                    <wpf:MandatoryFlag Value="{Binding LastName}" Grid.Row="2" Grid.Column="2"/>
+
+                    <Label Content="Date Of Birth" Grid.Row="3"/>
+                    <wpf:DateBox Date="{Binding DOB}" Grid.Row="3" Grid.Column="1"/>
+                    <wpf:MandatoryFlag Value="{Binding DOB}" Grid.Row="3" Grid.Column="2"/>
+                    
+                    <Label Content="Gender" Grid.Row="4"/>
+                    <wpf:Combo ItemsSource="{Binding RelativeSource={RelativeSource AncestorType=Window}, Path=DataContext.Genders}" SelectedItem="{Binding Gender,Mode=TwoWay}" Grid.Row="4" Grid.Column="1"/>
+                    <wpf:MandatoryFlag Value="{Binding Gender}"
+                           Grid.Row="4" Grid.Column="2"/>
+
+                    <Label Content="Street Address" Grid.Row="5"/>
+                    <wpf:SearchBox Text="{Binding StreetAddress}" Grid.Row="5" Grid.Column="1"/>
+
+                    <Label Content="Suburb" Grid.Row="6"/>
+                    <wpf:SearchBox Text="{Binding Suburb}" Grid.Row="6" Grid.Column="1"/>
+
+                    <Label Content="State" Grid.Row="7"/>
+                    <wpf:SearchBox Text="{Binding State}" Grid.Row="7" Grid.Column="1"/>
+
+                    <Label Content="Post Code" Grid.Row="8"/>
+                    <wpf:SearchBox Text="{Binding PostCode}" Grid.Row="8" Grid.Column="1"/>
+
+                    <Label Content="Phone Number" Grid.Row="9"/>
+                    <wpf:SearchBox Text="{Binding OriginalPhoneNumber}" Grid.Row="9" Grid.Column="1"/>
+
+                    <Label Content="New Phone Number" Grid.Row="10"/>
+                    <wpf:SearchBox Text="{Binding NewPhoneNumber}" Grid.Row="10" Grid.Column="1"/>
+
+                    <Label Content="Email" Grid.Row="11"/>
+                    <wpf:SearchBox Text="{Binding OriginalEmail}" Grid.Row="11" Grid.Column="1"/>
+
+                    <Label Content="New Email" Grid.Row="12"/>
+                    <wpf:SearchBox Text="{Binding NewEmail}" Grid.Row="12" Grid.Column="1"/>
+
+                    <wpf:SaveButton Grid.Row="14" Grid.ColumnSpan="2" Command="{Binding RelativeSource={RelativeSource AncestorType=Window}, Path=DataContext.SaveCMD}"/>
+                </wpf:Grid2>
+                
+                <wpf:SubForm Grid.Column="1" DataContext="{Binding RelativeSource={RelativeSource AncestorType=Window}, Path=DataContext.AccountHolderBookMakerAccountController}">
+                    <wpf:FormView ShowProgressBar="False" ShowRecordStatusButton="False">
+                        <wpf:FormHeader>
+                            <Label Content="Bookmakers:"/>
+                        </wpf:FormHeader>
+                        <wpf:FormContent>
+                            <wpf:Lista 
+                                HeaderColumnsWidth="100,100,100,50,50,50"
+                                HeaderStyle="{StaticResource HeaderLabelStyle}"
+                                ItemsSource="{Binding RecordSource}" SelectedItem="{Binding SelectedRecord}">
+                                <wpf:Lista.Header>
+                                    <Label Content="BookMaker" Grid.Column="1"/>
+                                    <Label Content="User Name" Grid.Column="2"/>
+                                    <Label Content="Password" Grid.Column="3"/>
+                                    <Label Content="COMMANDS" Grid.Column="4" Grid.ColumnSpan="3"/>
+                                </wpf:Lista.Header>
+                                <ListView.ItemTemplate>
+                                    <DataTemplate>
+                                        <wpf:ViewCell>
+                                            <wpf:Grid2 ColumnsDefinition2="100,100,100,50,50,50" RowDefinition2="30">
+                                                <wpf:Combo RecordsOrganizer="{Binding RelativeSource={RelativeSource AncestorType=wpf:Lista}, Path=DataContext.BookMakerOrder}" SelectedItem="{Binding BookMakerAccount}"/>
+                                                <wpf:SearchBox Grid.Column="1" Text="{Binding UserName}"/>
+                                                <wpf:Password Grid.Column="2" Value="{Binding Password}"/>
+                                                <wpf:SaveButton Grid.Column="3" Command="{Binding RelativeSource={RelativeSource AncestorType=wpf:Lista}, Path=DataContext.SaveCMD}"/>
+                                                <wpf:ImageButton Grid.Column="4" ButtonImageSource="{StaticResource BetIcon}" ToolTip="Bets" Command="{Binding RelativeSource={RelativeSource AncestorType=wpf:Lista}, Path=DataContext.OpenCMD}" SelfDataContext="True"/>
+                                                <wpf:DeleteButton Grid.Column="5" Command="{Binding RelativeSource={RelativeSource AncestorType=wpf:Lista}, Path=DataContext.DeleteCMD}"/>
+                                            </wpf:Grid2>
+                                        </wpf:ViewCell>
+                                    </DataTemplate>
+                                </ListView.ItemTemplate>
+                            </wpf:Lista>
+                        </wpf:FormContent>
+                    </wpf:FormView>
+                </wpf:SubForm>
+            </wpf:Grid2>
+        </wpf:FormContent>
+    </wpf:FormView>
+</Window>

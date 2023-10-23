@@ -1,0 +1,74 @@
+﻿<Page x:Class="Betting.View.AccountHolderList"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:wpf="clr-namespace:SARGUI.CustomGUI;assembly=SARGUI"
+      xmlns:controller="clr-namespace:Betting.Controller"
+      xmlns:local="clr-namespace:Betting.View"
+      mc:Ignorable="d" 
+      d:DesignHeight="450" d:DesignWidth="800"
+      Title="AccountHolderList">
+    
+    <Page.DataContext>
+    <controller:AccountHolderController/>
+    </Page.DataContext>
+
+    <wpf:FormView ShowRecordStatusButton="False" AllowNewRecord="False" ShowProgressBar="False">
+        <wpf:FormHeader>
+            <Grid>
+                <Border Style="{DynamicResource SearchBorderStyle}">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="50"/>
+                        </Grid.ColumnDefinitions>
+                        <wpf:SearchBox PlaceHolder="Search..." Text="{Binding Search,UpdateSourceTrigger=PropertyChanged}"/>
+                        <wpf:NewRecordButton Grid.Column="1" Command="{Binding OpenNewCMD}"/>
+                    </Grid>
+                </Border>
+            </Grid>
+        </wpf:FormHeader>
+
+        <wpf:FormContent>
+            <wpf:Lista RecordsOrganizer="{Binding AccountHolderRecordOrganiser}" FilterDataContext="{Binding Search}" HeaderStyle="{StaticResource HeaderLabelStyle}" HeaderHeight="30" 
+                       HeaderColumnsWidth="200,50,50" SelectedItem="{Binding SelectedRecord}">
+                <wpf:Lista.Header>
+                    <Label Content="Account Holder's Name" Grid.Column="1"/>
+                    <Label Content="COMMANDS" Grid.Column="2" Grid.ColumnSpan="2"/>
+                </wpf:Lista.Header>
+                <wpf:Lista.ItemTemplate>
+                    <DataTemplate>
+                        <wpf:ViewCell>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="200"/>
+                                    <ColumnDefinition Width="50"/>
+                                    <ColumnDefinition Width="50"/>
+                                </Grid.ColumnDefinitions>
+                                <StackPanel Orientation="Horizontal">
+                                    <StackPanel.Resources>
+                                        <Style TargetType="Label">
+                                            <Style.Triggers>
+                                                <Trigger Property="Content" Value="">
+                                                    <Setter Property="Visibility" Value="Collapsed"/>
+                                                    <Setter Property="Width" Value="0"/>
+                                                    <Setter Property="Padding" Value="0"/>
+                                                </Trigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </StackPanel.Resources>
+                                    <Label Content="{Binding FirstName}"/>
+                                    <Label Content="{Binding MiddleName}"/>
+                                    <Label Content="{Binding LastName}"/>
+                                </StackPanel>
+                                <wpf:OpenButton Grid.Column="1" Command="{Binding RelativeSource={RelativeSource AncestorType=Page}, Path=DataContext.OpenCMD}"/>
+                                <wpf:DeleteButton Grid.Column="2" Command="{Binding RelativeSource={RelativeSource AncestorType=Page}, Path=DataContext.DeleteCMD}"/>
+                            </Grid>
+                        </wpf:ViewCell>
+                    </DataTemplate>
+                </wpf:Lista.ItemTemplate>
+            </wpf:Lista>
+        </wpf:FormContent>
+    </wpf:FormView>
+</Page>

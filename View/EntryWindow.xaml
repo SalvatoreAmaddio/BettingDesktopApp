@@ -1,0 +1,13 @@
+﻿<wpf:LoadingMask x:Class="Betting.View.EntryWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:wpf="clr-namespace:SARGUI.CustomGUI;assembly=SARGUI"
+        mc:Ignorable="d"
+        UseInternet="False"
+        ImageSourceLogo="{DynamicResource AppLogo}"
+        MainWindow="{DynamicResource MainWindow}"
+        Icon="{DynamicResource AppIcon}"
+        Title="Betting System" Height="450" Width="450"/>
+

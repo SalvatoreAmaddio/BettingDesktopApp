@@ -1,0 +1,23 @@
+﻿<Application x:Class="Betting.App"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:local="clr-namespace:Betting"
+             xmlns:view="clr-namespace:Betting.View"
+             StartupUri="View\EntryWindow.xaml"
+             xmlns:c="clr-namespace:SARModel;assembly=SARModel"
+             DispatcherUnhandledException="OnDispatcherUnhandledException"
+             >
+    <Application.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/SARGUI;component/SARResources.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+            <view:MainWindow x:Key="MainWindow"/>
+
+            <BitmapImage x:Key="PromoIcon" UriSource="pack://application:,,,/img/promo.png" />
+            <BitmapImage x:Key="BetIcon" UriSource="pack://application:,,,/img/bet.png" />
+            <BitmapImage x:Key="AppIcon" UriSource="pack://application:,,,/img/AppLogo.ico" />
+            <BitmapImage x:Key="AppLogo" UriSource="pack://application:,,,/img/StoreLogo.png" />
+        </ResourceDictionary>
+    </Application.Resources>
+</Application>

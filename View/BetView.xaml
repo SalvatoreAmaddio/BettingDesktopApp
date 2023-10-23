@@ -1,0 +1,27 @@
+﻿<wpf:Grid2 x:Class="Betting.View.BetView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Betting.View"
+             mc:Ignorable="d" 
+             xmlns:wpf="clr-namespace:SARGUI.CustomGUI;assembly=SARGUI"
+             >
+    <!--ColumnsDefinition2="45,100,100,100,50,100,100,50,100,100,100,70,70,70,45,45"-->
+    <Label Content="{Binding IsPromo}"/>
+    <wpf:Combo Grid.Column="1" RecordsOrganizer="{Binding RelativeSource={RelativeSource AncestorType=wpf:Lista}, Path=DataContext.BookMakerOrder}" SelectedItem="{Binding BookMakerAccount}"/>
+    <wpf:Combo Grid.Column="2" SelectedItem="{Binding AccountHolder,Mode=TwoWay}" RecordsOrganizer="{Binding BetAccountHolderFilter}" FilterDataContext="{Binding BookMakerAccount}"/>
+    <wpf:DateBox Grid.Column="3" Date="{Binding DateOfBet}"/>
+    <wpf:SearchBox Grid.Column="4" Text="{Binding TimeOfBet,StringFormat={}{0:HH:mm}}"/>
+    <wpf:Combo Grid.Column="5" ItemsSource="{Binding RelativeSource={RelativeSource AncestorType=wpf:Lista}, Path=DataContext.Venues}" SelectedItem="{Binding Venue}"/>
+    <wpf:Combo Grid.Column="6" ItemsSource="{Binding RelativeSource={RelativeSource AncestorType=wpf:Lista}, Path=DataContext.BetCodes}" SelectedItem="{Binding BetCode}"/>
+    <wpf:Combo Grid.Column="7" ItemsSource="{Binding RelativeSource={RelativeSource AncestorType=wpf:Lista}, Path=DataContext.Races}" SelectedItem="{Binding RaceNo}"/>
+    <wpf:Combo Grid.Column="8" ItemsSource="{Binding RelativeSource={RelativeSource AncestorType=wpf:Lista}, Path=DataContext.Runners}" SelectedItem="{Binding Runner}"/>
+    <wpf:Combo Grid.Column="9" ItemsSource="{Binding RelativeSource={RelativeSource AncestorType=wpf:Lista}, Path=DataContext.BetPayments}" SelectedItem="{Binding BetPayment}"/>
+    <wpf:Combo Grid.Column="10" ItemsSource="{Binding RelativeSource={RelativeSource AncestorType=wpf:Lista}, Path=DataContext.Markets}" SelectedItem="{Binding Market}"/>
+    <wpf:SearchBox Grid.Column="11" Text="{Binding Odd,StringFormat={}{0:N2}}"/>
+    <wpf:SearchBox Grid.Column="12" Text="{Binding Wager,StringFormat={}{0:N2}}"/>
+    <wpf:SearchBox Grid.Column="13" Text="{Binding Profit,StringFormat={}{0:N2}}"/>
+    <wpf:SaveButton Grid.Column="14" Command="{Binding RelativeSource={RelativeSource AncestorType=wpf:Lista}, Path=DataContext.SaveCMD}"/>
+    <wpf:DeleteButton Grid.Column="15" Command="{Binding RelativeSource={RelativeSource AncestorType=wpf:Lista}, Path=DataContext.DeleteCMD}"/>
+</wpf:Grid2>
