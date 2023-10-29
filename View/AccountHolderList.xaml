@@ -14,7 +14,7 @@
     <controller:AccountHolderController/>
     </Page.DataContext>
 
-    <wpf:FormView ShowRecordStatusButton="False" AllowNewRecord="False" ShowProgressBar="False">
+    <wpf:FormView ShowRecordStatusButton="False" AllowNewRecord="False">
         <wpf:FormHeader>
             <Grid>
                 <Border Style="{DynamicResource SearchBorderStyle}">

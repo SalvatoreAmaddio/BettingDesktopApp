@@ -1,6 +1,7 @@
 ﻿using SARModel;
 using System;
 using System.Data;
+using System.Reflection.Metadata;
 using System.Threading.Tasks;
 
 namespace Betting.Model
@@ -66,8 +67,7 @@ namespace Betting.Model
             _firstName = reader.GetString(1);
             _middleName = reader.GetString(2);
             _lastName = reader.GetString(3);
-            try {_dob = DatabaseManager.GetDateFromDB(reader.GetString(4));}
-            catch { }
+            _dob=reader.GetDateTime(4);
             _gender = new(reader.GetInt32(5));
             _streetAddress = reader.GetString(6);
             _suburb = reader.GetString(7);

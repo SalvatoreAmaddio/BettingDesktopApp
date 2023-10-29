@@ -21,13 +21,14 @@ namespace Betting.View
     /// <summary>
     /// Interaction logic for BetWindow.xaml
     /// </summary>
-    public partial class BetWindow : Window
+    public partial class BetWindow : Window, IView
     {
-        private IAbstractController Controller { get; }
+        public IAbstractController Controller { get; }
         public BetWindow()
         {
             InitializeComponent();
             Controller = this.GetController();
+            Controller.SetUI(this);
         }
 
         public BetWindow(IAbstractModel record) : this()

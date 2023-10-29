@@ -25,7 +25,7 @@ namespace Betting
                        new SQLiteTable<Promotion>()
                        );
             }
-            catch ( Exception ex ) {}
+            catch {}
         }
 
         private void OnDispatcherUnhandledException(object sender, System.Windows.Threading.DispatcherUnhandledExceptionEventArgs e)=>

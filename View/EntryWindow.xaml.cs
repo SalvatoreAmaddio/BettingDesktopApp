@@ -22,10 +22,7 @@ namespace Betting.View
     /// </summary>
     public partial class EntryWindow : LoadingMask
     {
-        public EntryWindow()
-        {
-            InitializeComponent();
-        }
+        public EntryWindow() => InitializeComponent();
 
         protected async override void OnClosing(CancelEventArgs e)
         {
@@ -36,9 +33,9 @@ namespace Betting.View
                                     BetController.SetFilter()
                                     );
             }
-            catch (Exception ex)
+            catch
             {
-                MessageBox.Show("eRRORE ON CLOSING");
+                MessageBox.Show("ERRORE ON CLOSING LOADING WINDOW");
             }
         }
     }

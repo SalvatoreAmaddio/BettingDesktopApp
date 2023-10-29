@@ -6,16 +6,17 @@
     <Nullable>enable</Nullable>
     <UseWPF>true</UseWPF>
     <ApplicationIcon>AppIcon.ico</ApplicationIcon>
+	
 	<Platforms>AnyCPU;x64;x86</Platforms>
 	<SelfContained>true</SelfContained>
 	<RuntimeIdentifier>win-x64</RuntimeIdentifier>
 	<PublishSingleFile>true</PublishSingleFile>
-	<Description>Demo</Description>
 	<IncludeNativeLibrariesForSelfExtract>true</IncludeNativeLibrariesForSelfExtract>
 	<EnableCompressionInSingleFile>true</EnableCompressionInSingleFile>
 	<ApplicationManifest>app.manifest</ApplicationManifest>
 	<SignAssembly>True</SignAssembly>
 	<AssemblyOriginatorKeyFile>sgKey.snk</AssemblyOriginatorKeyFile>
+	<Description>Demo</Description>
 	<DelaySign>True</DelaySign>
 	<Authors>Salvatore Amaddio R.</Authors>
 	<Copyright>Salvatore Amaddio R.</Copyright>

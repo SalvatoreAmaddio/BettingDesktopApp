@@ -25,7 +25,7 @@
         </Style>
     </Page.Resources>
     
-    <wpf:FormView ShowProgressBar="False" ShowRecordStatusButton="False" AllowNewRecord="False">
+    <wpf:FormView ShowProgressBar="True" ShowRecordStatusButton="False" AllowNewRecord="False">
         <wpf:FormHeader>
             <Grid>
                 <Border Style="{DynamicResource SearchBorderStyle}">

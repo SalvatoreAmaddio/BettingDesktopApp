@@ -1,4 +1,7 @@
-﻿using System;
+﻿using Betting.Controller;
+using SARGUI;
+using SARModel;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -18,11 +21,15 @@ namespace Betting.View
     /// <summary>
     /// Interaction logic for BookMakerAccountList.xaml
     /// </summary>
-    public partial class BookMakerAccountList : Page
+    public partial class BookMakerAccountList : Page, IView
     {
+        public IAbstractController Controller { get; }
         public BookMakerAccountList()
         {
             InitializeComponent();
+            Controller = (BookMakerAccountController)DataContext;
+            Controller.SetUI(this);
         }
+
     }
 }

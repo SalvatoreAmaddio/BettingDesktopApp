@@ -1,4 +1,5 @@
-﻿using SARModel;
+﻿using SARGUI;
+using SARModel;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -25,5 +26,9 @@ namespace Betting.View
         {
             InitializeComponent();
         }
+
+        private void ExcelMenuItemClick(object sender, RoutedEventArgs e) =>
+        Tab.GetTabView().Controller.RunOffice(OfficeApplication.EXCEL);
+
     }
 }

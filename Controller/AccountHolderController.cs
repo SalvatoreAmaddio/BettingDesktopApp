@@ -2,13 +2,10 @@
 using Betting.View;
 using SARGUI;
 using SARModel;
-using System;
 using System.Collections.Generic;
-using System.ComponentModel;
+using System.IO;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
-using System.Windows;
 
 namespace Betting.Controller
 {
@@ -22,7 +19,6 @@ namespace Betting.Controller
             get => _accountHolderRecordOrganiser;
             set => Set(ref value, ref _accountHolderRecordOrganiser); 
         }
-
         public AccountHolderController()
         {
             SubControllers.Add(AccountHolderBookMakerAccountController);
@@ -31,7 +27,6 @@ namespace Betting.Controller
             AllowNewRecord(false);
             _accountHolderRecordOrganiser = new(ChildSource.SourceID);
         }
-
         protected override void OnAfterUpdate(object? sender, AbstractPropChangedEventArgs e)
         {
             if (e.PropIs(nameof(Search)))
@@ -46,7 +41,7 @@ namespace Betting.Controller
             base.OnRecordMoved(sender, e);
             AccountHolderBookMakerAccountController.OnAppearingGoTo(e.Record);
         }
-        public override void OpenRecord(IAbstractModel record)
+        public override void OpenRecord(IAbstractModel? record)
         {
             AccountHolderForm form = new(record);
             form.ShowDialog();
@@ -73,6 +68,42 @@ namespace Betting.Controller
                     break;
             }
             return IsSaved;
+        }
+        public override async void RunOffice(OfficeApplication officeApp)
+        {
+
+            IsLoading = true;
+            IsLoading = await Task.Run(
+                        ()=>
+                        WriteExcel(OfficeFileMode.WRITE, Path.Combine(Sys.DesktopPath, "AccountHolderReport.xlsx"),
+                        (excel) =>
+                        {
+                            excel.Range.Style("D1", new("dd/MM/yyyy", Styles.NumberFormat));
+                        }));
+        }
+        public override Task<object?[,]> OrganiseExcelData() 
+        {
+            object?[,] data = GenerateDataTable ("FIRST NAME","MIDDLE NAME", "LAST NAME", "DOB", "GENDER", "STREET ADDRESS",
+           "SUBURB", "STATE", "POST CODE", "PHONE NUM", "NEW PHONE NUM", "EMAIL","NEW EMAIL");
+
+            Parallel.For(0, ChildSource.RecordCount, (row) =>
+            {
+                AccountHolder record = (AccountHolder)ChildSource.Get(row);
+                data[row + 1, 0] = record.FirstName;
+                data[row + 1, 1] = record.MiddleName;
+                data[row + 1, 2] = record.LastName;
+                data[row + 1, 3] = $"'{record.DOB:d}";
+                data[row + 1, 4] = $"{record.Gender}";
+                data[row + 1, 5] = record.StreetAddress;
+                data[row + 1, 6] = record.Suburb;
+                data[row + 1, 7] = record.State;
+                data[row + 1, 8] = record.PostCode;
+                data[row + 1, 9] = record.OriginalPhoneNumber;
+                data[row + 1, 10] = record.NewPhoneNumber;
+                data[row + 1, 11] = record.OriginalEmail;
+                data[row + 1, 12] = record.NewEmail;
+            });
+            return Task.FromResult(data);
         }
     }
 

@@ -17,7 +17,7 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         <Menu x:Name="menu" Margin="20.1,0,0,0">
-            <MenuItem Height="40">
+            <MenuItem Height="40" Click="ExcelMenuItemClick">
                     <MenuItem.Header>
                         <TextBlock VerticalAlignment="Center">Report</TextBlock>
                     </MenuItem.Header>
@@ -27,7 +27,8 @@
                 </MenuItem>
             </Menu>
         <wpf:Curtain Height="{Binding ElementName=menu, Path=ActualHeight}" Row1Height="39" SoftwareInfo="{Binding RelativeSource={RelativeSource AncestorType=Window}, Path=Software}"/>
-        <TabControl Grid.Row="1">
+
+        <TabControl Grid.Row="1" x:Name="Tab">
                 <TabControl.Resources>
                     <Style TargetType="TabItem">
                         <Setter Property="Padding" Value="10"/>

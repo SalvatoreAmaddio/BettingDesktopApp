@@ -1,28 +1,23 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
+﻿using Betting.Controller;
+using SARGUI;
+using SARModel;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace Betting.View
 {
     /// <summary>
     /// Interaction logic for BetList.xaml
     /// </summary>
-    public partial class BetList : Page
+    public partial class BetList : Page, IView
     {
+        public IAbstractController Controller { get; }
+
         public BetList()
         {
             InitializeComponent();
+            Controller = (BetController)DataContext;
+            Controller.SetUI(this);
+
         }
     }
 }
