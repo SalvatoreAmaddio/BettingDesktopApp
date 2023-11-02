@@ -14,7 +14,7 @@ namespace Betting.Model
     {
         #region backprop
         long _promotionid;
-        BookMakerAccount _bookMakerAccount = new();
+        BookMakerAccount? _bookMakerAccount;
         DateTime? _dateOfPromotion = null;
         string _description = string.Empty;
         double _bonusUpTo;
@@ -25,7 +25,7 @@ namespace Betting.Model
         [PK]
         public long PromotionID { get => _promotionid; set => Set(ref value, ref _promotionid); }
         [FK("BookMakerAccountID")]
-        public BookMakerAccount BookMakerAccount { get => _bookMakerAccount; set => Set(ref value, ref _bookMakerAccount); }
+        public BookMakerAccount? BookMakerAccount { get => _bookMakerAccount; set => Set(ref value, ref _bookMakerAccount); }
         [ColumnName]
         public DateTime? DateOfPromotion { get => _dateOfPromotion; set => Set(ref value, ref _dateOfPromotion); }
         [ColumnName]
@@ -37,6 +37,8 @@ namespace Betting.Model
 
         [ColumnNameArray("Race", 10)]
         public PromotedRaces PromotedRaces { get; private set; }
+
+        public string Races { get => $"{PromotedRaces}"; }
         #endregion
 
         #region Constructors
@@ -61,28 +63,23 @@ namespace Betting.Model
         public override int ObjectHashCode => HashCode.Combine(PromotionID);
         public override bool CanSave() 
         {
-            bool result = true;
+            if (!IsDirty) return true;
             switch (false)
             {
+                case false when BookMakerAccount == null:
                 case false when !PromotedRaces.ArePromotedRacesSelected():
-                MessageBox.Show("Select at least one race", "Something is Missing");
-                result = false;
-                break;
                 case false when DateOfPromotion == null:
-                MessageBox.Show("Set a Promotion's date", "Something is Missing");
-                result= false;
-                break;
-
+                    return false;
+                default: break;
             }
-
-            return result;
+            return true;
         }
         public override Promotion GetRecord(IDataReader reader) => new(reader);
         public override bool IsEqualTo(object? obj)=>obj is Promotion promo && promo.PromotionID == PromotionID;
         public override void Params(Params param)
         {
             param.AddProperty(PromotionID, nameof(PromotionID));
-            param.AddProperty(BookMakerAccount.BookMakerAccountID, "BookMakerAccountID");
+            param.AddProperty(BookMakerAccount?.BookMakerAccountID, "BookMakerAccountID");
             param.AddProperty(Description, nameof(Description));
             param.AddProperty(BonusUpTo, nameof(BonusUpTo));
             param.AddProperty(DateOfPromotion, nameof(DateOfPromotion));
@@ -91,7 +88,8 @@ namespace Betting.Model
         }
         public override Task SetForeignKeys()
         {
-            _bookMakerAccount = GetFK(_bookMakerAccount);
+            if (_bookMakerAccount!=null)
+                _bookMakerAccount = GetFK(_bookMakerAccount);
             return Task.CompletedTask;
         }
         public override void SetPrimaryKey(long id)=>PromotionID = id;

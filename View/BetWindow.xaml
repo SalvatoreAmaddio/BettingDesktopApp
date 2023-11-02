@@ -15,17 +15,10 @@
         <controller:BetController/>
     </Window.DataContext>
 
-    <wpf:FormView ShowProgressBar="False" ShowRecordStatusButton="False" AllowNewRecord="False">
-        <wpf:FormHeader>
-            <Grid>
-                <Border Style="{DynamicResource SearchBorderStyle}">
-                    <local:BetFilterPanel ColumnsDefinition2="0,0,0,101,40,120,25,120,40,70,40,80,40,90,40,93,40,70,50"/>
-                </Border>
-            </Grid>
-        </wpf:FormHeader>
-
+    <wpf:FormView ShowProgressBar="False" ShowRecordStatusButton="False" HeaderHeight="85">
+        <local:BetFilterPanel IsOnForm="True"/>
         <wpf:FormContent>
-            <wpf:Lista HeaderStyle="{StaticResource HeaderLabelStyle}" HeaderColumnsWidth="{Binding WinColumnsWidth}" HeaderHeight="30" ItemsSource="{Binding RecordSource}" SelectedItem="{Binding SelectedRecord}">
+            <wpf:Lista HeaderStyle="{StaticResource HeaderLabelStyle}" HeaderColumnsWidth="{Binding WinViewColsWidth}" HeaderHeight="30" ItemsSource="{Binding RecordSource}" SelectedItem="{Binding SelectedRecord}">
                 <wpf:Lista.Header>
                     <Label Content="Promo" Grid.Column="1"/>
                     <Label Content="BookMaker" Grid.Column="2"/>
@@ -46,7 +39,7 @@
                 <wpf:Lista.ItemTemplate>
                     <DataTemplate>
                         <wpf:ViewCell>
-                            <local:BetView ColumnsDefinition2="{Binding RelativeSource={RelativeSource AncestorType=wpf:Lista}, Path=DataContext.WinColumnsWidth}"/>
+                            <local:BetView IsOnForm="True"/>
                         </wpf:ViewCell>
                     </DataTemplate>
                 </wpf:Lista.ItemTemplate>

@@ -5,18 +5,17 @@ using System.Windows.Controls;
 
 namespace Betting.View
 {
-    /// <summary>
-    /// Interaction logic for BetList.xaml
-    /// </summary>
-    public partial class BetList : Page, IView
+     public partial class Promotions : Page, IView
     {
         public IAbstractController Controller { get; }
 
-        public BetList()
+        public Promotions()
         {
             InitializeComponent();
-            Controller = (BetController)DataContext;
+            Controller = this.GetController();
             Controller.SetUI(this);
+            ((PromotionController)Controller).HideAgencyField = false;
         }
+
     }
 }

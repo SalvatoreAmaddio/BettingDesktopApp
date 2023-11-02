@@ -12,20 +12,12 @@ namespace Betting.Controller
 {
     public class BookMakerAccountController : AbstractDataController<BookMakerAccount>
     {
-        #region BookMakerOrder
-        BookMakerOrder _bookMakerOrder;
-        public BookMakerOrder BookMakerOrder
-        {
-            get=> _bookMakerOrder;
-            set => Set(ref value,ref _bookMakerOrder);
-        }
-        #endregion
 
         public ImageStorageManager? ImageStorageManager { get; set; }
 
         public BookMakerAccountController()
         {
-            _bookMakerOrder = new(ChildSource.SourceID);
+            ChildSource.SetFilter(new BookMakerOrder());
             AfterUpdate += OnAfterUpdate;
         }
 
@@ -33,7 +25,7 @@ namespace Betting.Controller
         {
             if (e.PropIs(nameof(Search)))
             {
-                BookMakerOrder.Requery();
+                ChildSource.Requery();
                 SelectedRecord = ChildSource.FirstOrDefault();
             }
         }
@@ -71,7 +63,7 @@ namespace Betting.Controller
             bool result=base.Save(record);
             if (result) 
             {
-                BookMakerOrder.Requery();
+                ChildSource.Requery();
                 task.Start();
             }
             return result;
@@ -86,43 +78,36 @@ namespace Betting.Controller
             bool result = base.Delete(record);
             if (result) 
             {
-                BookMakerOrder.Requery();
+                ChildSource.Requery();
                 task.Start();
             }
             return result;
         }
 
-        public override async void RunOffice(OfficeApplication officeApp)
-        {
-
-            IsLoading = true;
-            IsLoading = await Task.Run(
-                        () =>
-                        WriteExcel(OfficeFileMode.WRITE, Path.Combine(Sys.DesktopPath, "BookMakerAccountsReport.xlsx"),
-                        (excel) =>
-                        {
-                            excel.Range.Style("C1:J1", new("0", Styles.NumberFormat));
-                            excel.Range.Style("C1:J1", new(XLAlign.Center, Styles.HorizontalAlignment));
-                            excel.Range.Style("H1:J1", new("£#,##0;[Red]-£#,##0", Styles.NumberFormat));
-                            excel.Range.Style("G1", new("0%", Styles.NumberFormat));
-                            excel.Range.Merge("C1:D1");
-                            excel.Range.Style("C1:D1",new (37.5,Styles.RowHeight));
-                            excel.Range.Style("C1:D1", new(7, Styles.ColumnWidth));
-                            excel.Range.UseUsedRange();
-                            int row = excel.Range.Rows + 2;
-                            excel.Range.WriteValue(row, 1, "TOTALS");
-                            excel.Range.WriteValue(row, 5, $"=SUM(E2:E{excel.Range.Rows})");
-                            excel.Range.WriteValue(row, 6, $"=SUM(F2:F{excel.Range.Rows})");
-                            excel.Range.WriteValue(row, 7, $"=SUM(G2:G{excel.Range.Rows})");
-                            excel.Range.WriteValue(row, 8, $"=SUM(H2:H{excel.Range.Rows})");
-                            excel.Range.WriteValue(row, 9, $"=SUM(I2:I{excel.Range.Rows})");
-                            excel.Range.WriteValue(row, 10, $"=SUM(J2:J{excel.Range.Rows})");
-                            excel.Range.Style($"A{row}:J{row}", new(true, Styles.Bold));
-                            excel.Range.Style($"A{row}:J{row}", new(new ExcelColor(Color.LightGray), Styles.FillColor));
-                            excel.Range.Style($"A1:J1", new(true, Styles.WrapText));
-                            excel.Range.Style($"A1:J1", new(14, Styles.ColumnWidth));
-                        }));
-        }
+        public override Task<bool> WriteExcel() =>
+        WriteExcel(OfficeFileMode.WRITE, Path.Combine(Sys.DesktopPath, "BookMakerAccountsReport.xlsx"),
+        (excel) => {
+                    excel.Range.Style("C1:J1", new("0", Styles.NumberFormat));
+                    excel.Range.Style("C1:J1", new(XLAlign.Center, Styles.HorizontalAlignment));
+                    excel.Range.Style("H1:J1", new("£#,##0;[Red]-£#,##0", Styles.NumberFormat));
+                    excel.Range.Style("G1", new("0%", Styles.NumberFormat));
+                    excel.Range.Merge("C1:D1");
+                    excel.Range.Style("C1:D1",new (37.5,Styles.RowHeight));
+                    excel.Range.Style("C1:D1", new(7, Styles.ColumnWidth));
+                    excel.Range.UseUsedRange();
+                    int row = excel.Range.Rows + 2;
+                    excel.Range.WriteValue(row, 1, "TOTALS");
+                    excel.Range.WriteValue(row, 5, $"=SUM(E2:E{excel.Range.Rows})");
+                    excel.Range.WriteValue(row, 6, $"=SUM(F2:F{excel.Range.Rows})");
+                    excel.Range.WriteValue(row, 7, $"=SUM(G2:G{excel.Range.Rows})");
+                    excel.Range.WriteValue(row, 8, $"=SUM(H2:H{excel.Range.Rows})");
+                    excel.Range.WriteValue(row, 9, $"=SUM(I2:I{excel.Range.Rows})");
+                    excel.Range.WriteValue(row, 10, $"=SUM(J2:J{excel.Range.Rows})");
+                    excel.Range.Style($"A{row}:J{row}", new(true, Styles.Bold));
+                    excel.Range.Style($"A{row}:J{row}", new(new ExcelColor(Color.LightGray), Styles.FillColor));
+                    excel.Range.Style($"A1:J1", new(true, Styles.WrapText));
+                    excel.Range.Style($"A1:J1", new(14, Styles.ColumnWidth));
+                    });
 
         public override Task<object?[,]> OrganiseExcelData()
         {
@@ -148,11 +133,8 @@ namespace Betting.Controller
         }
     }
 
-    public class BookMakerOrder : AbstractRecordsOrganizer
+    public class BookMakerOrder : AbstractRecordsOrganizer<BookMakerAccount>
     {
-        public BookMakerOrder() { }
-        public BookMakerOrder(long sourceid) : base(sourceid) { }     
-        protected override IRecordSource OriginalSource => DatabaseManager.GetDatabaseTable<BookMakerAccount>().DataSource;
         public override bool FilterCriteria(IAbstractModel record)
         {
             string? dataContext = GetDataContext<string>();

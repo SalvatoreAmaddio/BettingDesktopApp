@@ -3,6 +3,7 @@ using SARGUI;
 using SARModel;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -12,20 +13,33 @@ namespace Betting.Controller
 
     abstract public class AbstractTwoColumnController<M> : AbstractDataController<M> where M : AbstractTableModel<M>, new()
     {
-        AbstractRecordsOrganizer _recordsOrganizer;
-        public AbstractRecordsOrganizer RecordsOrganizer { get=>_recordsOrganizer; set=>Set(ref value, ref _recordsOrganizer); }
         public AbstractTwoColumnController()
         {
             AfterUpdate += OnAfterUpdate;
-             
+            ChildSource.SetFilter(new TwoColumnRecordOrganiser<M>());
         }
 
-        private void OnAfterUpdate(object? sender, SARModel.AbstractPropChangedEventArgs e)
+        public override Task<bool> WriteExcel() =>
+        WriteExcel(OfficeFileMode.WRITE, Path.Combine(Sys.DesktopPath, $"{typeof(M).Name}.xlsx"),
+        (excel) => { });
+
+        public override Task<object?[,]> OrganiseExcelData()
+        {
+            object?[,] data = GenerateDataTable(typeof(M).Name);
+
+            Parallel.For(0, ChildSource.RecordCount, (row) =>
+            {
+                AbstractTwoColumnsTable<M> record = (AbstractTwoColumnsTable<M>)ChildSource.Get(row);
+                data[row + 1, 0] = record.Description;
+            });
+            return Task.FromResult(data);
+        }
+        protected override void OnAfterUpdate(object? sender, AbstractPropChangedEventArgs e)
         {
             if (e.PropIs(nameof(Search)))
             {
                 if (e.NewValueIsNull) return;
-                RecordsOrganizer.Requery();
+                ChildSource.Requery();
                 SelectedRecord = ChildSource.FirstOrDefault();
                 return;
             }
@@ -34,48 +48,27 @@ namespace Betting.Controller
 
     public class VenueController : AbstractTwoColumnController<Venue>
     {
-        public VenueController() 
-        {
-            RecordsOrganizer = new TwoColumnRecordOrganiser<Venue>(ChildSource.SourceID);
-        }
     }
 
     public class BetCodeController : AbstractTwoColumnController<BetCode>
     {
-        public BetCodeController()
-        {
-            RecordsOrganizer = new TwoColumnRecordOrganiser<BetCode>(ChildSource.SourceID);
-        }
     }
 
     public class RunnerController : AbstractTwoColumnController<Runner>
     {
-        public RunnerController()
-        {
-            RecordsOrganizer = new TwoColumnRecordOrganiser<Runner>(ChildSource.SourceID);
-        }
     }
 
     public class BetPaymentController : AbstractTwoColumnController<BetPayment>
     {
-        public BetPaymentController()
-        {
-            RecordsOrganizer = new TwoColumnRecordOrganiser<BetPayment>(ChildSource.SourceID);
-        }
     }
 
     public class MarketController : AbstractTwoColumnController<Market>
     {
-        public MarketController()
-        {
-            RecordsOrganizer = new TwoColumnRecordOrganiser<Market>(ChildSource.SourceID);
-        }
     }
 
-    public class TwoColumnRecordOrganiser<M> : AbstractRecordsOrganizer where M : AbstractTableModel<M>, new()
+    public class TwoColumnRecordOrganiser<M> : AbstractRecordsOrganizer<M> where M : AbstractTableModel<M>, new()
     {
-        protected override IRecordSource OriginalSource => DatabaseManager.GetDatabaseTable<M>().DataSource;
-        public TwoColumnRecordOrganiser(long sourceid) => SourceID = sourceid;
+        public TwoColumnRecordOrganiser() {}
 
         public override bool FilterCriteria(IAbstractModel model)
         {

@@ -13,16 +13,21 @@
         Title="Account Holder Form" Height="450" Width="800">
     
         <Window.DataContext>
-        <controller:AccountHolderController/>
+            <controller:AccountHolderController/>
         </Window.DataContext>
 
     <wpf:FormView ShowProgressBar="False">
         <wpf:FormContent DataContext="{Binding CurrentRecord}" Margin="10,0,10,0">
-            <wpf:Grid2 ColumnsDefinition2="350,*" RowDefinition2="450">
+            <wpf:Grid2 ColumnsDefinition2="380,*" RowDefinition2="505">
                 <wpf:Grid2 
-                    RowDefinition2="30,30,30,30,30,30,30,30,30,30,30,30,30,10,30"
+                    RowDefinition2="30,30,30,30,30,10,30,30,30,30,10,30,30,30,30,10,30,5,30"
                     ColumnsDefinition2="100,200,30" x:Name="Bio" Margin="10">
-
+                    <wpf:Grid2.Resources>
+                        <Style TargetType="Separator">
+                            <Setter Property="Background" Value="Transparent"/>
+                        </Style>
+                    </wpf:Grid2.Resources>
+                    
                     <Label Content="First Name"/>
                     <wpf:SearchBox Text="{Binding FirstName}" Grid.Column="1"/>
                     <wpf:MandatoryFlag Value="{Binding FirstName}" Grid.Row="0" Grid.Column="2"/>
@@ -40,38 +45,44 @@
                     
                     <Label Content="Gender" Grid.Row="4"/>
                     <wpf:Combo ItemsSource="{Binding RelativeSource={RelativeSource AncestorType=Window}, Path=DataContext.Genders}" SelectedItem="{Binding Gender,Mode=TwoWay}" Grid.Row="4" Grid.Column="1"/>
-                    <wpf:MandatoryFlag Value="{Binding Gender}"
-                           Grid.Row="4" Grid.Column="2"/>
+                    <wpf:MandatoryFlag Value="{Binding Gender}" Grid.Row="4" Grid.Column="2"/>
 
-                    <Label Content="Street Address" Grid.Row="5"/>
-                    <wpf:SearchBox Text="{Binding StreetAddress}" Grid.Row="5" Grid.Column="1"/>
+                    <Separator Grid.Row="5"/>
+                    
+                    <Label Content="Street Address" Grid.Row="6"/>
+                    <wpf:SearchBox Text="{Binding StreetAddress}" Grid.Row="6" Grid.Column="1"/>
 
-                    <Label Content="Suburb" Grid.Row="6"/>
-                    <wpf:SearchBox Text="{Binding Suburb}" Grid.Row="6" Grid.Column="1"/>
+                    <Label Content="Suburb" Grid.Row="7"/>
+                    <wpf:SearchBox Text="{Binding Suburb}" Grid.Row="7" Grid.Column="1"/>
 
-                    <Label Content="State" Grid.Row="7"/>
-                    <wpf:SearchBox Text="{Binding State}" Grid.Row="7" Grid.Column="1"/>
+                    <Label Content="State" Grid.Row="8"/>
+                    <wpf:SearchBox Text="{Binding State}" Grid.Row="8" Grid.Column="1"/>
 
-                    <Label Content="Post Code" Grid.Row="8"/>
-                    <wpf:SearchBox Text="{Binding PostCode}" Grid.Row="8" Grid.Column="1"/>
+                    <Label Content="Post Code" Grid.Row="9"/>
+                    <wpf:SearchBox Text="{Binding PostCode}" Grid.Row="9" Grid.Column="1"/>
 
-                    <Label Content="Phone Number" Grid.Row="9"/>
-                    <wpf:SearchBox Text="{Binding OriginalPhoneNumber}" Grid.Row="9" Grid.Column="1"/>
+                    <Separator Grid.Row="10"/>
 
-                    <Label Content="New Phone Number" Grid.Row="10"/>
-                    <wpf:SearchBox Text="{Binding NewPhoneNumber}" Grid.Row="10" Grid.Column="1"/>
+                    <Label Content="Phone Number" Grid.Row="11"/>
+                    <wpf:SearchBox Text="{Binding OriginalPhoneNumber}" Grid.Row="11" Grid.Column="1"/>
 
-                    <Label Content="Email" Grid.Row="11"/>
-                    <wpf:SearchBox Text="{Binding OriginalEmail}" Grid.Row="11" Grid.Column="1"/>
+                    <Label Content="New Phone Number" Grid.Row="12"/>
+                    <wpf:SearchBox Text="{Binding NewPhoneNumber}" Grid.Row="12" Grid.Column="1"/>
 
-                    <Label Content="New Email" Grid.Row="12"/>
-                    <wpf:SearchBox Text="{Binding NewEmail}" Grid.Row="12" Grid.Column="1"/>
+                    <Label Content="Email" Grid.Row="13"/>
+                    <wpf:SearchBox Text="{Binding OriginalEmail}" Grid.Row="13" Grid.Column="1"/>
 
-                    <wpf:SaveButton Grid.Row="14" Grid.ColumnSpan="2" Command="{Binding RelativeSource={RelativeSource AncestorType=Window}, Path=DataContext.SaveCMD}"/>
+                    <Label Content="New Email" Grid.Row="14"/>
+                    <wpf:SearchBox Text="{Binding NewEmail}" Grid.Row="14" Grid.Column="1"/>
+
+                    <Separator Grid.Row="15"/>
+                    <wpf:SaveButton Grid.Row="16" Grid.ColumnSpan="2"/>
+                    <Separator Grid.Row="17"/>
+                    <wpf:DeleteButton Grid.Row="18" Grid.ColumnSpan="2"/>
                 </wpf:Grid2>
                 
-                <wpf:SubForm Grid.Column="1" DataContext="{Binding RelativeSource={RelativeSource AncestorType=Window}, Path=DataContext.AccountHolderBookMakerAccountController}">
-                    <wpf:FormView ShowProgressBar="False" ShowRecordStatusButton="False">
+                <wpf:SubForm Grid.Column="1" Controller="{Binding RelativeSource={RelativeSource AncestorType=Window}, Path=DataContext.AccountHolderBookMakerAccountController}">
+                    <wpf:FormView ShowProgressBar="False" ShowRecordStatusButton="False" HeaderHeight="30">
                         <wpf:FormHeader>
                             <Label Content="Bookmakers:"/>
                         </wpf:FormHeader>
@@ -81,7 +92,7 @@
                                 HeaderStyle="{StaticResource HeaderLabelStyle}"
                                 ItemsSource="{Binding RecordSource}" SelectedItem="{Binding SelectedRecord}">
                                 <wpf:Lista.Header>
-                                    <Label Content="BookMaker" Grid.Column="1"/>
+                                    <Label Content="Agency" Grid.Column="1"/>
                                     <Label Content="User Name" Grid.Column="2"/>
                                     <Label Content="Password" Grid.Column="3"/>
                                     <Label Content="COMMANDS" Grid.Column="4" Grid.ColumnSpan="3"/>
@@ -90,12 +101,12 @@
                                     <DataTemplate>
                                         <wpf:ViewCell>
                                             <wpf:Grid2 ColumnsDefinition2="100,100,100,50,50,50" RowDefinition2="30">
-                                                <wpf:Combo RecordsOrganizer="{Binding RelativeSource={RelativeSource AncestorType=wpf:Lista}, Path=DataContext.BookMakerOrder}" SelectedItem="{Binding BookMakerAccount}"/>
+                                                <wpf:Combo ItemsSource="{Binding RelativeSource={RelativeSource AncestorType=wpf:Lista}, Path=DataContext.Bookmakers}" SelectedItem="{Binding BookMakerAccount}"/>
                                                 <wpf:SearchBox Grid.Column="1" Text="{Binding UserName}"/>
                                                 <wpf:Password Grid.Column="2" Value="{Binding Password}"/>
-                                                <wpf:SaveButton Grid.Column="3" Command="{Binding RelativeSource={RelativeSource AncestorType=wpf:Lista}, Path=DataContext.SaveCMD}"/>
+                                                <wpf:SaveButton Grid.Column="3"/>
                                                 <wpf:ImageButton Grid.Column="4" ButtonImageSource="{StaticResource BetIcon}" ToolTip="Bets" Command="{Binding RelativeSource={RelativeSource AncestorType=wpf:Lista}, Path=DataContext.OpenCMD}" SelfDataContext="True"/>
-                                                <wpf:DeleteButton Grid.Column="5" Command="{Binding RelativeSource={RelativeSource AncestorType=wpf:Lista}, Path=DataContext.DeleteCMD}"/>
+                                                <wpf:DeleteButton Grid.Column="5"/>
                                             </wpf:Grid2>
                                         </wpf:ViewCell>
                                     </DataTemplate>

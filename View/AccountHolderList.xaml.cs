@@ -1,6 +1,7 @@
 ﻿using Betting.Controller;
 using SARGUI;
 using SARModel;
+using System.ComponentModel;
 using System.Windows.Controls;
 
 namespace Betting.View
@@ -11,7 +12,7 @@ namespace Betting.View
         public AccountHolderList()
         {
             InitializeComponent();
-            Controller = (AccountHolderController)DataContext;
+            Controller = this.GetController();
             Controller.SetUI(this);
         }
     }

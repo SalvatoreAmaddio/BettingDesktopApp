@@ -5,33 +5,30 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:wpf="clr-namespace:SARGUI.CustomGUI;assembly=SARGUI"
       xmlns:controller="clr-namespace:Betting.Controller"
-      xmlns:local="clr-namespace:Betting.View"
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="800"
       Title="AccountHolderList">
     
     <Page.DataContext>
-    <controller:AccountHolderController/>
+        <controller:AccountHolderController/>
     </Page.DataContext>
 
-    <wpf:FormView ShowRecordStatusButton="False" AllowNewRecord="False">
+    <wpf:FormView ShowRecordStatusButton="False" AllowNewRecord="True" NewRecordCommand="{Binding OpenNewCMD}">
         <wpf:FormHeader>
             <Grid>
                 <Border Style="{DynamicResource SearchBorderStyle}">
                     <Grid>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*"/>
-                            <ColumnDefinition Width="50"/>
                         </Grid.ColumnDefinitions>
-                        <wpf:SearchBox PlaceHolder="Search..." Text="{Binding Search,UpdateSourceTrigger=PropertyChanged}"/>
-                        <wpf:NewRecordButton Grid.Column="1" Command="{Binding OpenNewCMD}"/>
+                        <wpf:SearchBox PlaceHolder="Search..." Text="{Binding Search, UpdateSourceTrigger=PropertyChanged}"/>
                     </Grid>
                 </Border>
             </Grid>
         </wpf:FormHeader>
 
         <wpf:FormContent>
-            <wpf:Lista RecordsOrganizer="{Binding AccountHolderRecordOrganiser}" FilterDataContext="{Binding Search}" HeaderStyle="{StaticResource HeaderLabelStyle}" HeaderHeight="30" 
+            <wpf:Lista ItemsSource="{Binding ChildSource}" FilterDataContext="{Binding Search}" HeaderStyle="{StaticResource HeaderLabelStyle}" HeaderHeight="30" 
                        HeaderColumnsWidth="200,50,50" SelectedItem="{Binding SelectedRecord}">
                 <wpf:Lista.Header>
                     <Label Content="Account Holder's Name" Grid.Column="1"/>
@@ -40,12 +37,7 @@
                 <wpf:Lista.ItemTemplate>
                     <DataTemplate>
                         <wpf:ViewCell>
-                            <Grid>
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="200"/>
-                                    <ColumnDefinition Width="50"/>
-                                    <ColumnDefinition Width="50"/>
-                                </Grid.ColumnDefinitions>
+                            <wpf:Grid2 ColumnsDefinition2="200,50,50">
                                 <StackPanel Orientation="Horizontal">
                                     <StackPanel.Resources>
                                         <Style TargetType="Label">
@@ -64,7 +56,7 @@
                                 </StackPanel>
                                 <wpf:OpenButton Grid.Column="1" Command="{Binding RelativeSource={RelativeSource AncestorType=Page}, Path=DataContext.OpenCMD}"/>
                                 <wpf:DeleteButton Grid.Column="2" Command="{Binding RelativeSource={RelativeSource AncestorType=Page}, Path=DataContext.DeleteCMD}"/>
-                            </Grid>
+                            </wpf:Grid2>
                         </wpf:ViewCell>
                     </DataTemplate>
                 </wpf:Lista.ItemTemplate>

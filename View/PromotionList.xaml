@@ -15,42 +15,9 @@
         <controller:PromotionController/>
     </Window.DataContext>
     
-    <wpf:FormView ShowRecordStatusButton="False" ShowProgressBar="False" AllowNewRecord="False">
-        <wpf:FormHeader>
-            <Grid>
-                <Border Style="{DynamicResource SearchBorderStyle}">
-                    <wpf:Grid2 RowDefinition2="30,29" ColumnsDefinition2="50,115,30,115,65,65,65,65,65,65,65,65,65,66,50">
-                        <wpf:Grid2.Resources>
-                            <Style TargetType="CheckBox">
-                                <Setter Property="Margin" Value="5,0,0,0"/>
-                                <Setter Property="VerticalContentAlignment" Value="Center"/>
-                            </Style>
-                        </wpf:Grid2.Resources>   
-                        
-                     <Label Content="Filter options:" Grid.ColumnSpan="14" VerticalAlignment="Top"/>
-                        
-                     <Label Grid.Column="0" Grid.Row="1" Content="From" VerticalAlignment="Center"/>
-                     <wpf:DateBox Grid.Column="1" Grid.Row="1"/>
+    <wpf:FormView ShowRecordStatusButton="False" ShowProgressBar="False" NewRecordCommand="{Binding OpenNewCMD}" HeaderHeight="85">
+        <local:PromotionFilterPanel IsOnForm="True"/>
 
-                    <Label Grid.Column="2" Grid.Row="1" Content="To" HorizontalContentAlignment="Center" VerticalAlignment="Center"/>
-                    <wpf:DateBox Grid.Row="2" Grid.Column="3"/>
-
-                    <CheckBox Content="Race 1" Grid.Row="2" Grid.Column="4"/>
-                    <CheckBox Content="Race 2" Grid.Row="2" Grid.Column="5"/>
-                    <CheckBox Content="Race 3" Grid.Row="2" Grid.Column="6"/>
-                    <CheckBox Content="Race 4" Grid.Row="2" Grid.Column="7"/>
-                    <CheckBox Content="Race 5" Grid.Row="2" Grid.Column="8"/>
-                    <CheckBox Content="Race 6" Grid.Row="2" Grid.Column="9"/>
-                    <CheckBox Content="Race 7" Grid.Row="2" Grid.Column="10"/>
-                    <CheckBox Content="Race 8" Grid.Row="2" Grid.Column="11"/>
-                    <CheckBox Content="Race 9" Grid.Row="2" Grid.Column="12"/>
-                    <CheckBox Content="Race 10" Grid.Row="2" Grid.Column="13"/>
-                    <wpf:NewRecordButton Grid.Column="14" Command="{Binding OpenNewCMD}" Grid.RowSpan="2" Margin="20,0,0,0" VerticalAlignment="Center"/>
-                    </wpf:Grid2>
-                </Border>
-            </Grid>
-        </wpf:FormHeader>
-        
         <wpf:FormContent>
             <wpf:Lista HeaderStyle="{StaticResource HeaderLabelStyle}" HeaderColumnsWidth="*,50,50" HeaderHeight="30" ItemsSource="{Binding RecordSource}" SelectedItem="{Binding SelectedRecord}">
                 <wpf:Lista.Header>
@@ -62,8 +29,8 @@
                         <wpf:ViewCell>
                             <wpf:Grid2 ColumnsDefinition2="*,50,50">
                                 <Label Content="{Binding .}" HorizontalAlignment="Stretch"/>
-                                <wpf:OpenButton Grid.Column="1" Command="{Binding RelativeSource={RelativeSource AncestorType=Window}, Path=DataContext.OpenCMD}"/>
-                                <wpf:DeleteButton Grid.Column="2" Command="{Binding RelativeSource={RelativeSource AncestorType=Window}, Path=DataContext.DeleteCMD}"/>
+                                <wpf:OpenButton Grid.Column="1"/>
+                                <wpf:DeleteButton Grid.Column="2"/>
                             </wpf:Grid2>
                         </wpf:ViewCell>
                     </DataTemplate>

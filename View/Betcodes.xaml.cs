@@ -17,13 +17,14 @@ using System.Windows.Shapes;
 
 namespace Betting.View
 {
-    public partial class Betcodes : Page
+    public partial class Betcodes : Page, IView
     {
-        IAbstractController Controller { get; }
+        public IAbstractController Controller { get; }
         public Betcodes()
         {
             InitializeComponent();
             Controller = this.GetController();
+            Controller.SetUI(this);
         }
     }
 }

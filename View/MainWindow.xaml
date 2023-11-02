@@ -24,8 +24,8 @@
                     <MenuItem.Icon>
                         <Image Source="{StaticResource ExcelIcon}" HorizontalAlignment="Center" Stretch="UniformToFill"/>
                     </MenuItem.Icon>
-                </MenuItem>
-            </Menu>
+             </MenuItem>
+        </Menu>
         <wpf:Curtain Height="{Binding ElementName=menu, Path=ActualHeight}" Row1Height="39" SoftwareInfo="{Binding RelativeSource={RelativeSource AncestorType=Window}, Path=Software}"/>
 
         <TabControl Grid.Row="1" x:Name="Tab">
@@ -44,7 +44,7 @@
                     </Frame>
                 </TabItem>
 
-                <TabItem Header="Bookmakers">
+                <TabItem Header="Agencies">
                     <Frame>
                         <Frame.Content>
                             <local:BookMakerAccountList/>
@@ -52,15 +52,23 @@
                     </Frame>
                 </TabItem>
 
-                <TabItem Header="Bets">
+            <TabItem Header="Promotions">
+                <Frame>
+                    <Frame.Content>
+                        <local:Promotions/>
+                    </Frame.Content>
+                </Frame>
+            </TabItem>
+            
+            <TabItem Header="Bets">
                     <Frame>
                         <Frame.Content>
                             <local:BetList/>
                         </Frame.Content>
                     </Frame>
                 </TabItem>
-
-                <TabItem Header="Venues">
+            
+            <TabItem Header="Venues">
                     <Frame>
                         <Frame.Content>
                             <local:Venues/>

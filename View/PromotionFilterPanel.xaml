@@ -1,0 +1,43 @@
+﻿<wpf:FormHeader x:Class="Betting.View.PromotionFilterPanel"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:wpf="clr-namespace:SARGUI.CustomGUI;assembly=SARGUI"
+             mc:Ignorable="d" 
+             x:Name="formHeader">
+    <Border Style="{DynamicResource SearchBorderStyle}">
+        <Grid>
+            <Label Content="Filter options:" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+            <wpf:Grid2 x:Name="OptionGrid" Margin="0,30,0,0" RowDefinition2="29" ColumnsDefinition2="140,40,120,25,120,65,65,65,65,65,65,65,65,65,71">
+                <wpf:Grid2.Resources>
+                    <Style TargetType="CheckBox">
+                        <Setter Property="Margin" Value="10,0,0,0"/>
+                        <Setter Property="HorizontalContentAlignment" Value="Center"/>
+                        <Setter Property="VerticalAlignment" Value="Center"/>
+                    </Style>
+                </wpf:Grid2.Resources>
+                <wpf:Combo Grid.Column="0" PlaceHolder="Agency" ItemsSource="{Binding BookMakers}" SelectedItem="{Binding PromotionFilterManager.BookMakerAccount}"/>
+
+                <Label Grid.Column="1" Content="From" VerticalAlignment="Center"/>
+                <wpf:DateBox Grid.Column="2" Date="{Binding PromotionFilterManager.FromDate}"/>
+
+                <Label Grid.Column="3" Content="To" HorizontalContentAlignment="Center" VerticalAlignment="Center"/>
+                <wpf:DateBox Grid.Column="4" Date="{Binding PromotionFilterManager.ToDate}"/>
+
+                <CheckBox Grid.Column="5" Content="Race 1" IsChecked="{Binding PromotionFilterManager.Race1}"/>
+                <CheckBox Grid.Column="6" Content="Race 2" IsChecked="{Binding PromotionFilterManager.Race2}"/>
+                <CheckBox Grid.Column="7" Content="Race 3" IsChecked="{Binding PromotionFilterManager.Race3}"/>
+                <CheckBox Grid.Column="8" Content="Race 4" IsChecked="{Binding PromotionFilterManager.Race4}"/>
+                <CheckBox Grid.Column="9" Content="Race 5" IsChecked="{Binding PromotionFilterManager.Race5}"/>
+                <CheckBox Grid.Column="10" Content="Race 6" IsChecked="{Binding PromotionFilterManager.Race6}"/>
+                <CheckBox Grid.Column="11" Content="Race 7" IsChecked="{Binding PromotionFilterManager.Race7}"/>
+                <CheckBox Grid.Column="12" Content="Race 8" IsChecked="{Binding PromotionFilterManager.Race8}"/>
+                <CheckBox Grid.Column="13" Content="Race 9" IsChecked="{Binding PromotionFilterManager.Race9}"/>
+                <CheckBox Grid.Column="14" Content="Race 10" IsChecked="{Binding PromotionFilterManager.Race10}"/>
+            </wpf:Grid2>
+            <wpf:DropDownButton VerticalAlignment="Bottom" DropDown="{Binding ElementName=formHeader}" DropDownMinHeight="47" DropDownMaxHeight="81" Margin="0,0,-5,-10"/>
+        </Grid>
+
+    </Border>
+</wpf:FormHeader>

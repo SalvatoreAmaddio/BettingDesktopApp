@@ -16,9 +16,9 @@ using System.Windows.Shapes;
 
 namespace Betting.View
 {
-    public partial class PromotionList : Window
+    public partial class PromotionList : Window, IView
     {
-        IAbstractController Controller { get; }
+        public IAbstractController Controller { get; }
         public PromotionList()
         {
             InitializeComponent();

@@ -14,7 +14,7 @@
         <controller:BetCodeController/>
     </Page.DataContext>
     
-    <wpf:FormView ShowProgressBar="False" ShowRecordStatusButton="False">
+    <wpf:FormView ShowRecordStatusButton="False">
         <wpf:FormHeader>
             <Grid>
                 <Border Style="{DynamicResource SearchBorderStyle}">
@@ -29,7 +29,7 @@
         </wpf:FormHeader>
 
         <wpf:FormContent>
-            <wpf:Lista RecordsOrganizer="{Binding RecordsOrganizer}" FilterDataContext="{Binding Search}" SelectedItem="{Binding SelectedRecord}" HeaderColumnsWidth="150,50,50" HeaderStyle="{StaticResource HeaderLabelStyle}">
+            <wpf:Lista ItemsSource="{Binding ChildSource}" FilterDataContext="{Binding Search}" SelectedItem="{Binding SelectedRecord}" HeaderColumnsWidth="150,50,50" HeaderStyle="{StaticResource HeaderLabelStyle}">
                 <wpf:Lista.Header>
                     <Label Content="BetCode" Grid.Column="1"/>
                     <Label Content="COMMANDS" Grid.Column="2" Grid.ColumnSpan="2"/>

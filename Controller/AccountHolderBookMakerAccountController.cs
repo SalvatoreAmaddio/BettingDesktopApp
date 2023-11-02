@@ -2,32 +2,21 @@
 using Betting.View;
 using SARGUI;
 using SARModel;
-using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
-using System.Windows;
 
 namespace Betting.Controller
 {
     public class AccountHolderBookMakerAccountController : AbstractDataController<AccountHolderBookMakerAccount>
     {
-        BookMakerOrder _bookMakerOrder;
-        AccountHolder? accountHolder;
+        AccountHolder? CurrentAccountHolder;
 
-        public BookMakerOrder BookMakerOrder
-        {
-            get => _bookMakerOrder;
-            set => Set(ref value, ref _bookMakerOrder);
-        }
         public RecordSource<BookMakerAccount> Bookmakers { get; }
 
         public AccountHolderBookMakerAccountController()
         {
-            Bookmakers = new((IEnumerable<BookMakerAccount>)DatabaseManager.GetDatabaseTable<BookMakerAccount>().DataSource);
-            DatabaseManager.AddChild<BookMakerAccount>(Bookmakers);
-            _bookMakerOrder = new(Bookmakers.SourceID);
+            Bookmakers = IRecordSource.InitSource<BookMakerAccount>();
+            Bookmakers.SetFilter(new BookMakerOrder());
         }
 
         public override void OpenRecord(IAbstractModel? record)
@@ -37,9 +26,9 @@ namespace Betting.Controller
            betWindow.ShowDialog();
         }
 
-        public override void OpenNewRecord(IAbstractModel record)
+        public override void OpenNewRecord(IAbstractModel? record)
         {
-            if (accountHolder == null) return;
+            if (CurrentAccountHolder == null) return;
             ChildSource.GoNewRecord();
         }
 
@@ -47,17 +36,17 @@ namespace Betting.Controller
         {
             if (record != null && record is AccountHolder accHld)
             {
-                accountHolder = accHld;
+                CurrentAccountHolder = accHld;
                 var filteredRange = MainSource.Where<AccountHolderBookMakerAccount>(s=>s.AccountHolder.IsEqualTo(record),false).ToList();
                 ChildSource.ReplaceData(filteredRange);
 
-                switch (accountHolder.IsNewRecord) 
+                switch (CurrentAccountHolder.IsNewRecord) 
                 {
                     case true:
-                    AllowNewRecord(false);
+                        AllowNewRecord(false);
                     return;
                     case false:
-                    AllowNewRecord(true);
+                        AllowNewRecord(true);
                     break;
                 }
 
@@ -71,9 +60,9 @@ namespace Betting.Controller
 
         public override bool Save(IAbstractModel? record)
         {
-            if (accountHolder == null || record==null) return false;
+            if (CurrentAccountHolder == null || record==null) return false;
             AccountHolderBookMakerAccount AccHldrBkMkrAcc = (AccountHolderBookMakerAccount)record;
-            AccHldrBkMkrAcc.AccountHolder=accountHolder;
+            AccHldrBkMkrAcc.AccountHolder=CurrentAccountHolder;
             bool result = base.Save(AccHldrBkMkrAcc);
             if (result) BetController.RunRefreshOnBookMakerChangedTask(AccHldrBkMkrAcc);
             return result;

@@ -15,6 +15,9 @@
     <Compile Update="View\AccountHolderList.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="View\BackupWindow.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="View\BetFilterPanel.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -36,10 +39,16 @@
     <Compile Update="View\MainWindow.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="View\PromotionFilterPanel.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="View\PromotionForm.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Update="View\PromotionList.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="View\Promotions.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Update="View\Venues.xaml.cs">
@@ -53,10 +62,19 @@
     <Page Update="View\AccountHolderList.xaml">
       <SubType>Designer</SubType>
     </Page>
+    <Page Update="View\BackupWindow.xaml">
+      <SubType>Designer</SubType>
+    </Page>
     <Page Update="View\Markets.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="View\BetPayments.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="View\PromotionFilterPanel.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="View\Promotions.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="View\Runners.xaml">

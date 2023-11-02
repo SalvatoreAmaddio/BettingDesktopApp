@@ -20,9 +20,9 @@ namespace Betting.View
     /// <summary>
     /// Interaction logic for AccountHolderForm.xaml
     /// </summary>
-    public partial class AccountHolderForm : Window
+    public partial class AccountHolderForm : Window, IView
     {
-        IAbstractController Controller { get; }
+        public IAbstractController Controller { get; }
         public AccountHolderForm()
         {
             InitializeComponent();

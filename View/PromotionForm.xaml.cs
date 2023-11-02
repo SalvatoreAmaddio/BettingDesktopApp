@@ -17,9 +17,9 @@ using System.Windows.Shapes;
 
 namespace Betting.View
 {
-    public partial class PromotionForm : Window
+    public partial class PromotionForm : Window, IView
     {
-        IAbstractController Controller { get; }
+        public IAbstractController Controller { get; }
 
         public PromotionForm()
         {
@@ -29,9 +29,10 @@ namespace Betting.View
             Controller.AllowNewRecord(true);
         }
 
-        public PromotionForm(IAbstractModel record) : this()
+        public PromotionForm(IAbstractModel record, bool HideAgencyField = false) : this()
         {
-            Title = $"{record}'s Promotions";
+            if (HideAgencyField) GridContent.RowDefinition2 = "0,30,30,30,30,150";
+            Title = (!HideAgencyField && record.IsNewRecord) ? "New Promotion" : $"{record}'s Promotions";
             Controller.OnAppearingGoTo(record);
         }
 

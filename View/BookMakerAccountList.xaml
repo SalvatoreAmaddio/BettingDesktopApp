@@ -25,17 +25,15 @@
         </Style>
     </Page.Resources>
     
-    <wpf:FormView ShowProgressBar="True" ShowRecordStatusButton="False" AllowNewRecord="False">
+    <wpf:FormView ShowProgressBar="True" ShowRecordStatusButton="False">
         <wpf:FormHeader>
             <Grid>
                 <Border Style="{DynamicResource SearchBorderStyle}">
                     <Grid>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*"/>
-                            <ColumnDefinition Width="50"/>
                         </Grid.ColumnDefinitions>
                         <wpf:SearchBox PlaceHolder="Search..." Text="{Binding Search,UpdateSourceTrigger=PropertyChanged}"/>
-                        <wpf:NewRecordButton Grid.Column="1" Command="{Binding OpenNewCMD}"/>
                     </Grid>
                 </Border>
             </Grid>
@@ -43,7 +41,7 @@
 
         <wpf:FormContent>
             <wpf:Lista 
-                       RecordsOrganizer="{Binding BookMakerOrder}"
+                       ItemsSource="{Binding ChildSource}"
                        FilterDataContext="{Binding Search}"
                        HeaderStyle="{StaticResource HeaderLabelStyle2}" HeaderHeight="40" 
                        HeaderColumnsWidth="50,200,50,50,20,50,60,60,100,100,100,100,50,50,50" SelectedItem="{Binding SelectedRecord}">
@@ -98,7 +96,7 @@
                                 </wpf:ImageHolder>
 
                                 <wpf:SearchBox Grid.Column="1" Text="{Binding BookMakerName}" PlaceHolder="New Bookmaker name here..."/>
-                                <wpf:MandatoryFlag  Style="{StaticResource warningLabel}" Grid.Column="1" Value="{Binding BookMakerName}" Margin="0,-10,-15,0" Panel.ZIndex="1" VerticalAlignment="Top" HorizontalAlignment="Right"/>
+                                <wpf:MandatoryFlag Style="{StaticResource warningLabel}" Grid.Column="1" Value="{Binding BookMakerName}" Margin="0,-10,-15,0" Panel.ZIndex="1" VerticalAlignment="Top" HorizontalAlignment="Right"/>
                                 <CheckBox Grid.Column="2" IsChecked="{Binding Status}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
 
                                 <wpf:SearchBox Grid.Column="3" Text="{Binding GreenThreshold}"/>

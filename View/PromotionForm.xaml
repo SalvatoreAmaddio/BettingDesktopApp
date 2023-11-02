@@ -8,6 +8,7 @@
         xmlns:local="clr-namespace:Betting.View"
         mc:Ignorable="d"
         SizeToContent="WidthAndHeight"
+        ResizeMode="NoResize"
         WindowStartupLocation="CenterScreen"
         Icon="{StaticResource PromoIcon}"
         Title="Promotion">
@@ -17,21 +18,33 @@
     </Window.DataContext>
 
     <wpf:FormView ShowProgressBar="False">
-        <wpf:FormHeader>
-                
-        </wpf:FormHeader>
-
         <wpf:FormContent DataContext="{Binding CurrentRecord}">
             <wpf:Grid2 Margin="10" ColumnsDefinition2="320,100">
-                <wpf:Grid2 ColumnsDefinition2="100,200" RowDefinition2="30,30,30,30,150">
-                    <Label Grid.Row="0" Grid.Column="0" Content="Date"/>
-                    <wpf:DateBox Grid.Row="0" Grid.Column="1" Date="{Binding DateOfPromotion}"/>
-                    <Label Grid.Row="1" Grid.Column="0" Content="Description"/>
-                    <wpf:SearchBox Grid.Row="1" Grid.Column="1" Text="{Binding Description}"/>
-                    <Label Grid.Row="2" Grid.Column="0" Content="Bonus Up To"/>
-                    <wpf:SearchBox Grid.Row="2" Grid.Column="1" Text="{Binding BonusUpTo}"/>
+                <wpf:Grid2 x:Name="GridContent" ColumnsDefinition2="100,200" RowDefinition2="30,30,30,30,30,150">
+                    <wpf:Grid2.Resources>
+                        <Style TargetType="wpf:MandatoryFlag" BasedOn="{StaticResource warningLabel}">
+                            <Setter Property="Margin" Value="0,0,-21,0"/>
+                            <Setter Property="Panel.ZIndex" Value="1"/>
+                            <Setter Property="VerticalAlignment" Value="Center"/>
+                            <Setter Property="HorizontalAlignment" Value="Right"/>
+                        </Style>
+                    </wpf:Grid2.Resources>
+                    
+                    <Label Grid.Column="0" Content="Agency"/>
+                    <wpf:Combo Grid.Column="1" ItemsSource="{Binding RelativeSource={RelativeSource AncestorType=Window}, Path=DataContext.BookMakers}" SelectedItem="{Binding BookMakerAccount}"/>
+                    <wpf:MandatoryFlag Grid.Column="1" Value="{Binding BookMakerAccount}"/>
 
-                    <wpf:ImageHolder Grid.Row="4" Grid.ColumnSpan="2" Grid.Column="0" ImageStorageManager="{Binding RelativeSource={RelativeSource AncestorType=Window}, Path=DataContext.ImageStorageManager}"/>
+                    <Label Grid.Row="1" Grid.Column="0" Content="Date"/>
+                    <wpf:DateBox Grid.Row="1" Grid.Column="1" Date="{Binding DateOfPromotion}"/>
+                    <wpf:MandatoryFlag Grid.Row="1" Grid.Column="1" Value="{Binding DateOfPromotion}"/>
+
+                    <Label Grid.Row="2" Grid.Column="0" Content="Description"/>
+                    <wpf:SearchBox Grid.Row="2" Grid.Column="1" Text="{Binding Description}"/>
+                    
+                    <Label Grid.Row="3" Grid.Column="0" Content="Bonus Up To"/>
+                    <wpf:SearchBox Grid.Row="3" Grid.Column="1" Text="{Binding BonusUpTo}"/>
+                    
+                    <wpf:ImageHolder Grid.Row="5" Grid.ColumnSpan="2" Grid.Column="0" ImageStorageManager="{Binding RelativeSource={RelativeSource AncestorType=Window}, Path=DataContext.ImageStorageManager}"/>
                 </wpf:Grid2>
 
                 <StackPanel Grid.Column="1" Margin="10">
@@ -46,7 +59,9 @@
                     <CheckBox Content="Race 9" IsChecked="{Binding PromotedRaces[8]}"/>
                     <CheckBox Content="Race 10" IsChecked="{Binding PromotedRaces[9]}"/>
                     <Separator Background="Transparent" Height="20"/>
-                    <wpf:SaveButton x:Name="SaveBtn" Command="{Binding RelativeSource={RelativeSource AncestorType=Window}, Path=DataContext.SaveCMD}"/>
+                    <wpf:SaveButton x:Name="SaveBtn"/>
+                    <Separator Background="Transparent" Height="0"/>
+                    <wpf:DeleteButton x:Name="DeleteBtn"/>
                     <Separator Background="Transparent" Height="0"/>
                     <Button ToolTip="View Banner" Visibility="{Binding RelativeSource={RelativeSource AncestorType=Window}, Path=DataContext.ImageStorageManager.ButtonVisibility}" Command="{Binding RelativeSource={RelativeSource AncestorType=Window}, Path=DataContext.ImageStorageManager.ViewBannerCMD}" Content="VIEW" Height="{Binding ElementName=SaveBtn, Path=Height}"/>
                 </StackPanel>

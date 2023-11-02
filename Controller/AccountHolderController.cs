@@ -11,28 +11,21 @@ namespace Betting.Controller
 {
     public class AccountHolderController : AbstractDataController<AccountHolder>
     {
-        AccountHolderRecordOrganiser _accountHolderRecordOrganiser;
         public RecordSource<Gender> Genders { get; }
         public AccountHolderBookMakerAccountController AccountHolderBookMakerAccountController { get; } = new();
-        public AccountHolderRecordOrganiser AccountHolderRecordOrganiser 
-        { 
-            get => _accountHolderRecordOrganiser;
-            set => Set(ref value, ref _accountHolderRecordOrganiser); 
-        }
         public AccountHolderController()
         {
             SubControllers.Add(AccountHolderBookMakerAccountController);
             Genders = new((IEnumerable<Gender>)DatabaseManager.GetDatabaseTable<Gender>().DataSource);
             DatabaseManager.AddChild<Gender>(Genders);
-            AllowNewRecord(false);
-            _accountHolderRecordOrganiser = new(ChildSource.SourceID);
+            ChildSource.SetFilter(new AccountHolderRecordOrganiser());
         }
         protected override void OnAfterUpdate(object? sender, AbstractPropChangedEventArgs e)
         {
             if (e.PropIs(nameof(Search)))
             {
                 if (e.NewValueIsNull) return;
-                AccountHolderRecordOrganiser.Requery();
+                ChildSource.Requery();
                 SelectedRecord = ChildSource.FirstOrDefault();
             }
         }
@@ -69,18 +62,14 @@ namespace Betting.Controller
             }
             return IsSaved;
         }
-        public override async void RunOffice(OfficeApplication officeApp)
-        {
-
-            IsLoading = true;
-            IsLoading = await Task.Run(
-                        ()=>
-                        WriteExcel(OfficeFileMode.WRITE, Path.Combine(Sys.DesktopPath, "AccountHolderReport.xlsx"),
-                        (excel) =>
-                        {
-                            excel.Range.Style("D1", new("dd/MM/yyyy", Styles.NumberFormat));
-                        }));
-        }
+        public override Task<bool> WriteExcel() =>
+        WriteExcel(OfficeFileMode.WRITE, Path.Combine(Sys.DesktopPath, "AccountHolderReport.xlsx"),
+                  (excel) =>
+                  {
+                     excel.Range.Style("D1", new("dd/MM/yyyy", Styles.NumberFormat));
+                     excel.Range.Style("J1:K1", new("### ### ### ##", Styles.NumberFormat));
+                     excel.Range.Style("J1:K1", new(XLAlign.Center, Styles.HorizontalAlignment));
+                  });
         public override Task<object?[,]> OrganiseExcelData() 
         {
             object?[,] data = GenerateDataTable ("FIRST NAME","MIDDLE NAME", "LAST NAME", "DOB", "GENDER", "STREET ADDRESS",
@@ -107,15 +96,15 @@ namespace Betting.Controller
         }
     }
 
-    public class AccountHolderRecordOrganiser : AbstractRecordsOrganizer {
-        protected override IRecordSource OriginalSource => DatabaseManager.GetDatabaseTable<AccountHolder>().DataSource;
-        public AccountHolderRecordOrganiser(long sourceid) => SourceID = sourceid;
+    public class AccountHolderRecordOrganiser : AbstractRecordsOrganizer<AccountHolder> {
+        public AccountHolderRecordOrganiser() { }
+        public AccountHolderRecordOrganiser(long sourceid) : base(sourceid) { }
 
         public override bool FilterCriteria(IAbstractModel model)
         {
             string? dataContext = GetDataContext<string>();  
             if (dataContext==null) return false;
-            var result =model?.ToString()?.ToLower().Contains(dataContext.ToLower());
+            var result = model?.ToString()?.ToLower().Contains(dataContext.ToLower());
             return result ?? false;
         }
 

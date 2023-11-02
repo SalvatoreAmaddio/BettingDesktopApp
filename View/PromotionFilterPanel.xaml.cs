@@ -6,7 +6,6 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Controls.Primitives;
 using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
@@ -18,26 +17,25 @@ using System.Windows.Shapes;
 namespace Betting.View
 {
     /// <summary>
-    /// Interaction logic for BetFilterPanel.xaml
+    /// Interaction logic for PromotionFilterPanel.xaml
     /// </summary>
-    public partial class BetFilterPanel : FormHeader
+    public partial class PromotionFilterPanel : FormHeader
     {
-        public BetFilterPanel()
+        public PromotionFilterPanel()
         {
             InitializeComponent();
         }
 
-
         #region IsOnForm
-        public static readonly DependencyProperty IsOnFormProperty = SARGUI.View.Binder.Register<bool, BetFilterPanel>(nameof(IsOnForm), true, false, IsOnFormPropertyChanged, true, true, true);
+        public static readonly DependencyProperty IsOnFormProperty = SARGUI.View.Binder.Register<bool, PromotionFilterPanel>(nameof(IsOnForm), true, false, IsOnFormPropertyChanged, true, true, true);
 
         private static void IsOnFormPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            BetFilterPanel thisPanel = (BetFilterPanel)d;
+            PromotionFilterPanel thisPanel = (PromotionFilterPanel)d;
             bool isOnForm = (bool)e.NewValue;
-            thisPanel.OptionGrid.ColumnsDefinition2 = (isOnForm) 
-            ? "0,0,101,40,120,25,120,10,110,10,110,10,110,10,110,10,110"
-            : "140,140,101,40,120,25,120,10,100,10,100,10,100,10,100,10,100";
+            thisPanel.OptionGrid.ColumnsDefinition2 = (isOnForm)
+            ? "0,40,120,25,120,65,65,65,65,65,65,65,65,65,71"
+            : "140,40,120,25,120,65,65,65,65,65,65,65,65,65,71";
         }
 
         public bool IsOnForm
@@ -46,5 +44,6 @@ namespace Betting.View
             set => SetValue(IsOnFormProperty, value);
         }
         #endregion
+
     }
 }

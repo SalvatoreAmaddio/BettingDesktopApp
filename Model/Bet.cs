@@ -79,6 +79,7 @@ namespace Betting.Model
 
         public IRecordsOrganizer? BetAccountHolderFilter { get => _betAccountHolderFilter; set => Set(ref value, ref _betAccountHolderFilter); }
         public string IsPromo { get => IsPromotion(); }
+        public bool IsPromo2 { get => IsPromo.Equals("YES") ? true : false; }
         #endregion
 
         #region Constructors
